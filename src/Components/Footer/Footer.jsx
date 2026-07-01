@@ -102,9 +102,7 @@ export default function Footer() {
               <div className="ftr-logo-placeholder">
                 <img src={logo} alt="" />
               </div>
-              <span className="ftr-logo-text">
-                MERIDIAN<span className="ftr-logo-text-accent">&nbsp;LINK</span>
-              </span>
+              
             </Link>
             <p className="ftr-brand-desc">
               Ground stations, laser crosslinks, and orbital relay mesh that keep

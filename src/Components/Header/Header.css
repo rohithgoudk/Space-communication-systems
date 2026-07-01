@@ -53,8 +53,8 @@
 .hdr-logo-dot { display: none; }
 
 .hdr-logo-img {
-  height: 42px;
-  width: 52px;
+  height: 135px;
+  width: 135px;
   object-fit: contain;
   border-radius: 6px;
   filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.25));

@@ -1,5 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 import "./Capabilities.css";
+import home2 from "../../assets/Home2.webp"
+import home1 from "../../assets/Home1.webp"
+import home3 from "../../assets/Home3.webp"
+import home4 from "../../assets/Home4.webp"
+import home5 from "../../assets/Home5.webp"
+import home6 from "../../assets/Home6.webp"
+import home7 from "../../assets/Home7.webp"
+
+
+/* Unsplash source photography (free license, no attribution required).
+   Reused across the site's "Carrier Wave" visual system so every page
+   feels like part of the same physical network. */
+const IMG = {
+  nebula:
+    home2,
+  milkyWay:
+    home1,
+  dishField:
+    home3,
+  satelliteOrbit:
+    home4,
+  earthAtNight:
+    home5,
+  groundStation:
+   home6,
+  controlRoom:
+    home7,
+};
 
 function useReveal() {
   const ref = useRef(null);
@@ -33,6 +61,8 @@ const CAPS = [
     title: "X-band & Ka-band uplink",
     body: "Three 34-meter dish clusters spaced across longitudes keep continuous contact with spacecraft from cislunar space out past the heliopause, handing off cleanly as Earth rotates underneath them.",
     metrics: [["Range", "23B+ km"], ["Bands", "X / Ka"], ["Dishes", "12 active"]],
+    image: IMG.dishField,
+    alt: "Large parabolic ground-station dish standing in an open field",
   },
   {
     tag: "02",
@@ -40,6 +70,8 @@ const CAPS = [
     title: "Laser comm relay",
     body: "Point-ahead tracking and adaptive optics push data rates past what RF can carry, turning a single photon budget into gigabit-class returns from lunar and near-Earth missions.",
     metrics: [["Throughput", "1.2 Gbps"], ["Pointing", "±0.5 µrad"], ["Latency", "0.4s avg"]],
+    image: IMG.satelliteOrbit,
+    alt: "Satellite silhouetted against the curve of Earth in orbit",
   },
   {
     tag: "03",
@@ -47,6 +79,8 @@ const CAPS = [
     title: "LEO relay swarm",
     body: "Spacecraft talk to the nearest node instead of waiting for a ground pass. The mesh routes around weather, congestion, and eclipse, so a downlink window is rarely more than a few minutes away.",
     metrics: [["Nodes", "340 sats"], ["Reroute", "<0.4s"], ["Coverage", "Global"]],
+    image: IMG.earthAtNight,
+    alt: "Earth at night, city lights forming a bright interconnected web",
   },
   {
     tag: "04",
@@ -54,6 +88,8 @@ const CAPS = [
     title: "Field-deployable stations",
     body: "Containerized 4.5-meter terminals stand up a mission-grade link in under a day, built for polar orbits, expedition science, and sites where permanent infrastructure isn't an option.",
     metrics: [["Setup", "<24 hrs"], ["Terminals", "4.5m"], ["Sites", "61 fielded"]],
+    image: IMG.groundStation,
+    alt: "Compact satellite dish deployed on an open grass field",
   },
 ];
 
@@ -84,13 +120,25 @@ export default function Capabilities() {
       <div className="cp-page">
         {/* HERO */}
         <section className="cp-hero">
+          <img
+            className="cp-hero__photo"
+            src={IMG.nebula}
+            alt=""
+            role="presentation"
+            loading="eager"
+            fetchpriority="high"
+            style={{ transform: `translateY(${Math.min(scrollY * 0.03, 30)}px) scale(1.06)` }}
+          />
+          <div className="cp-hero__scrim" aria-hidden="true" />
           <div className="cp-hero__grid" style={{ transform: `translateY(${Math.min(scrollY * 0.05, 40)}px)` }} aria-hidden="true" />
-          <p className="cp-eyebrow">Capabilities</p>
-          <h1 className="cp-hero__headline">Four ways to keep<br />a signal alive.</h1>
-          <p className="cp-hero__sub">
-            Every mission has a different orbit, data budget, and deadline. Meridian Link
-            engineers the right combination of RF, optical, and mesh relay to match it.
-          </p>
+          <div className="cp-hero__inner">
+            <p className="cp-eyebrow">Capabilities</p>
+            <h1 className="cp-hero__headline">Four ways to keep<br />a signal alive.</h1>
+            <p className="cp-hero__sub">
+              Every mission has a different orbit, data budget, and deadline. Meridian Link
+              engineers the right combination of RF, optical, and mesh relay to match it.
+            </p>
+          </div>
         </section>
 
         {/* CAPABILITY CARDS */}
@@ -98,6 +146,9 @@ export default function Capabilities() {
           <div className="cp-caps-grid">
             {CAPS.map((c, i) => (
               <Reveal key={c.title} delay={i * 100} className="cp-cap-card">
+                <div className="cp-cap-card__photo">
+                  <img src={c.image} alt={c.alt} loading="lazy" />
+                </div>
                 <div className="cp-cap-card__top">
                   <span className="cp-cap-tag">{c.tag}</span>
                   <span className="cp-cap-label">{c.label}</span>
@@ -149,29 +200,35 @@ export default function Capabilities() {
         </section>
 
         {/* PROCESS */}
-        <section className="cp-section">
-          <Reveal className="cp-section__head">
-            <p className="cp-eyebrow">Onboarding</p>
-            <h2>From first call to first pass</h2>
-          </Reveal>
-          <div className="cp-process">
-            <div className="cp-process__rail" aria-hidden="true" />
-            {PROCESS.map((p, i) => (
-              <Reveal key={p.step} delay={i * 110} className="cp-process__item">
-                <span className="cp-process__index">{String(i + 1).padStart(2, "0")}</span>
-                <div className="cp-process__dot" />
-                <div>
-                  <h3>{p.step}</h3>
-                  <p>{p.detail}</p>
-                </div>
-              </Reveal>
-            ))}
+        <section className="cp-process-section">
+          <img className="cp-process-section__photo" src={IMG.controlRoom} alt="" role="presentation" loading="lazy" />
+          <div className="cp-process-section__scrim" aria-hidden="true" />
+          <div className="cp-section cp-process-section__inner">
+            <Reveal className="cp-section__head">
+              <p className="cp-eyebrow">Onboarding</p>
+              <h2>From first call to first pass</h2>
+            </Reveal>
+            <div className="cp-process">
+              <div className="cp-process__rail" aria-hidden="true" />
+              {PROCESS.map((p, i) => (
+                <Reveal key={p.step} delay={i * 110} className="cp-process__item">
+                  <span className="cp-process__index">{String(i + 1).padStart(2, "0")}</span>
+                  <div className="cp-process__dot" />
+                  <div>
+                    <h3>{p.step}</h3>
+                    <p>{p.detail}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* CTA */}
         <section className="cp-cta">
-          <Reveal>
+          <img className="cp-cta__photo" src={IMG.milkyWay} alt="" role="presentation" loading="lazy" />
+          <div className="cp-cta__scrim" aria-hidden="true" />
+          <Reveal className="cp-cta__inner">
             <h2>Not sure which path fits your mission?</h2>
             <p>Tell us the orbit and the data budget — we'll map it to a link in one call.</p>
             <a href="/contact" className="cp-btn cp-btn--primary">Talk to a Network Engineer</a>

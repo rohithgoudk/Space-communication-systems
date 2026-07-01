@@ -1,5 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import "./Contact.css";
+import home1 from "../../assets/Home1.webp"
+import home5 from "../../assets/Home5.webp"
+import home6 from "../../assets/Home6.webp"
+
+
+/* Unsplash source photography (free license, no attribution required).
+   Part of the same "Carrier Wave" photo system used across the site. */
+const IMG = {
+  milkyWay:
+    home5,
+  earthAtNight:
+    home5,
+  controlRoom:
+    home6,
+};
 
 function useReveal() {
   const ref = useRef(null);
@@ -45,6 +60,13 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,12 +90,24 @@ export default function Contact() {
     <>
       <div className="ct-page">
         <section className="ct-hero">
-          <p className="ct-eyebrow">Contact</p>
-          <h1 className="ct-hero__headline">Let's get your<br />mission on the link.</h1>
-          <p className="ct-hero__sub">
-            Tell us the orbit, the data volume, and the deadline. A network engineer
-            will map it to a station, a relay path, and a margin you can trust.
-          </p>
+          <img
+            className="ct-hero__photo"
+            src={IMG.milkyWay}
+            alt=""
+            role="presentation"
+            loading="eager"
+            fetchpriority="high"
+            style={{ transform: `translateY(${Math.min(scrollY * 0.03, 30)}px) scale(1.06)` }}
+          />
+          <div className="ct-hero__scrim" aria-hidden="true" />
+          <div className="ct-hero__inner">
+            <p className="ct-eyebrow">Contact</p>
+            <h1 className="ct-hero__headline">Let's get your<br />mission on the link.</h1>
+            <p className="ct-hero__sub">
+              Tell us the orbit, the data volume, and the deadline. A network engineer
+              will map it to a station, a relay path, and a margin you can trust.
+            </p>
+          </div>
         </section>
 
         <section className="ct-section ct-main-grid">
@@ -115,45 +149,53 @@ export default function Contact() {
             )}
           </Reveal>
 
-          {/* OFFICES */}
+          {/* OFFICES, now backed by an Earth-at-night photo */}
           <Reveal delay={120} className="ct-offices">
-            <h2>Network Operations Centers</h2>
-            <ul>
-              {OFFICES.map((o) => (
-                <li key={o.city} className="ct-office">
-                  <span className="ct-office__dot" />
-                  <div>
-                    <div className="ct-office__city">{o.city}</div>
-                    <div className="ct-office__role">{o.role} · {o.time}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <div className="ct-direct">
-              <span className="ct-eyebrow">Direct Line</span>
-              <a href="mailto:integration@meridianlink.example">integration@meridianlink.example</a>
+            <img className="ct-offices__photo" src={IMG.earthAtNight} alt="" role="presentation" loading="lazy" />
+            <div className="ct-offices__scrim" aria-hidden="true" />
+            <div className="ct-offices__inner">
+              <h2>Network Operations Centers</h2>
+              <ul>
+                {OFFICES.map((o) => (
+                  <li key={o.city} className="ct-office">
+                    <span className="ct-office__dot" />
+                    <div>
+                      <div className="ct-office__city">{o.city}</div>
+                      <div className="ct-office__role">{o.role} · {o.time}</div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="ct-direct">
+                <span className="ct-eyebrow">Direct Line</span>
+                <a href="mailto:integration@meridianlink.example">integration@meridianlink.example</a>
+              </div>
             </div>
           </Reveal>
         </section>
 
         {/* FAQ */}
-        <section className="ct-section ct-faq-section">
-          <Reveal className="ct-section__head">
-            <p className="ct-eyebrow">FAQ</p>
-            <h2>Before you reach out</h2>
-          </Reveal>
-          <div className="ct-faq-list">
-            {FAQ.map((f, i) => (
-              <Reveal key={f.q} delay={i * 70} className={`ct-faq-item ${openFaq === i ? "is-open" : ""}`}>
-                <button className="ct-faq-question" onClick={() => setOpenFaq(openFaq === i ? -1 : i)}>
-                  {f.q}
-                  <span className="ct-faq-icon">{openFaq === i ? "−" : "+"}</span>
-                </button>
-                <div className="ct-faq-answer" style={{ maxHeight: openFaq === i ? "200px" : "0px" }}>
-                  <p>{f.a}</p>
-                </div>
-              </Reveal>
-            ))}
+        <section className="ct-faq-section">
+          <img className="ct-faq-section__photo" src={IMG.controlRoom} alt="" role="presentation" loading="lazy" />
+          <div className="ct-faq-section__scrim" aria-hidden="true" />
+          <div className="ct-section ct-faq-section__inner">
+            <Reveal className="ct-section__head">
+              <p className="ct-eyebrow">FAQ</p>
+              <h2>Before you reach out</h2>
+            </Reveal>
+            <div className="ct-faq-list">
+              {FAQ.map((f, i) => (
+                <Reveal key={f.q} delay={i * 70} className={`ct-faq-item ${openFaq === i ? "is-open" : ""}`}>
+                  <button className="ct-faq-question" onClick={() => setOpenFaq(openFaq === i ? -1 : i)}>
+                    {f.q}
+                    <span className="ct-faq-icon">{openFaq === i ? "−" : "+"}</span>
+                  </button>
+                  <div className="ct-faq-answer" style={{ maxHeight: openFaq === i ? "200px" : "0px" }}>
+                    <p>{f.a}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
       </div>
