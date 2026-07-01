@@ -1,0 +1,316 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --void: #04060b;
+  --panel: #0b1220;
+  --line: #1b2840;
+  --cyan: #5eead4;
+  --cyan-dim: #2d6e64;
+  --amber: #ffb454;
+  --danger: #ff6b6b;
+  --text: #e7ecf3;
+  --muted: #8190ab;
+
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+.notfound-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow: hidden;
+  padding: 2rem 1.25rem;
+}
+
+/* ---------- Dead-signal field background ---------- */
+.notfound-root::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 30%, rgba(255, 107, 107, 0.08), transparent 65%),
+    repeating-linear-gradient(0deg, transparent 0, transparent 38px, rgba(94, 234, 212, 0.03) 39px),
+    repeating-linear-gradient(90deg, transparent 0, transparent 38px, rgba(94, 234, 212, 0.03) 39px),
+    var(--void);
+  animation: grid-drift 30s linear infinite;
+}
+
+/* static / noise scanlines sweeping the whole viewport */
+.notfound-root::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.025) 0px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+  animation: scanline-drift 7s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes grid-drift {
+  0%   { background-position: 0 0, 0 0, 0 0, 0 0; }
+  100% { background-position: 0 0, 39px 39px, -39px 39px, 0 0; }
+}
+@keyframes scanline-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 60px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notfound-root::before,
+  .notfound-root::after,
+  .notfound-title span,
+  .notfound-artifact-icon,
+  .notfound-site-dot { animation: none !important; }
+}
+
+/* ---------- Content ---------- */
+.notfound-overlay {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.notfound-content {
+  width: 100%;
+  max-width: 560px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(15, 24, 48, 0.85), rgba(11, 18, 32, 0.85));
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 3.2rem 2.4rem 2.6rem;
+  box-shadow:
+    0 0 0 1px rgba(94, 234, 212, 0.04),
+    0 30px 70px -25px rgba(0, 0, 0, 0.7),
+    0 0 90px -30px rgba(255, 107, 107, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+/* scanning lock-attempt line across the top */
+.notfound-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -45%;
+  width: 45%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--danger), transparent);
+  animation: scan-edge 3.2s ease-in-out infinite;
+}
+@keyframes scan-edge {
+  0%   { left: -45%; }
+  100% { left: 100%; }
+}
+
+/* ---------- Dish / antenna icon ---------- */
+.notfound-artifact-icon {
+  font-size: 3.4rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 14px rgba(94, 234, 212, 0.35));
+  animation: dish-search 4.5s ease-in-out infinite;
+}
+@keyframes dish-search {
+  0%, 100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(8deg); }
+}
+
+/* ---------- 404 glitch title ---------- */
+.notfound-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3.5rem, 12vw, 6rem);
+  display: flex;
+  justify-content: center;
+  gap: 0.3rem;
+  margin: 0 0 0.8rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.notfound-title span {
+  color: var(--text);
+  position: relative;
+}
+
+.notfound-zero {
+  color: var(--danger);
+  display: inline-block;
+  animation: signal-glitch 3.6s steps(1) infinite;
+  text-shadow: 0 0 18px rgba(255, 107, 107, 0.45);
+}
+
+@keyframes signal-glitch {
+  0%, 88%, 100% {
+    transform: translate(0, 0);
+    text-shadow: 0 0 18px rgba(255, 107, 107, 0.45);
+  }
+  90% {
+    transform: translate(-2px, 1px);
+    text-shadow: 2px 0 var(--cyan), -2px 0 var(--danger);
+  }
+  92% {
+    transform: translate(2px, -1px);
+    text-shadow: -2px 0 var(--cyan), 2px 0 var(--danger);
+  }
+  94% {
+    transform: translate(0, 0);
+    text-shadow: 0 0 18px rgba(255, 107, 107, 0.45);
+  }
+}
+
+/* ---------- Copy ---------- */
+.notfound-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  color: var(--amber);
+  margin: 0 0 1rem;
+}
+
+.notfound-description {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 42ch;
+  margin: 0 auto 2.2rem;
+}
+
+/* ---------- Actions ---------- */
+.notfound-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.8rem;
+}
+
+.notfound-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.notfound-btn-icon { font-size: 1rem; }
+
+.notfound-btn-primary {
+  background: var(--cyan);
+  color: var(--void);
+  font-weight: 600;
+}
+.notfound-btn-primary:hover {
+  background: #79f0db;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -10px rgba(94, 234, 212, 0.45);
+}
+
+.notfound-btn-secondary {
+  background: var(--panel);
+  color: var(--text);
+  border-color: var(--line);
+}
+.notfound-btn-secondary:hover {
+  border-color: var(--cyan-dim);
+  transform: translateY(-2px);
+}
+
+/* ---------- Hints ---------- */
+.notfound-hints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+.notfound-hints span { font-size: 1rem; }
+.notfound-hints p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--muted);
+  text-align: left;
+}
+
+/* ---------- Relay station status ---------- */
+.notfound-dig-sites {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+
+.notfound-sites-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.notfound-sites-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.notfound-site-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan-dim);
+  box-shadow: 0 0 0 0 rgba(94, 234, 212, 0.4);
+  animation: relay-ping 2.4s ease-in-out infinite;
+}
+.notfound-site-dot:nth-child(1) { animation-delay: 0s; }
+.notfound-site-dot:nth-child(2) { animation-delay: 0.3s; }
+.notfound-site-dot:nth-child(3) { animation-delay: 0.6s; }
+.notfound-site-dot:nth-child(4) { animation-delay: 0.9s; }
+.notfound-site-dot:nth-child(5) { animation-delay: 1.2s; }
+
+@keyframes relay-ping {
+  0%, 60%, 100% {
+    background: var(--cyan-dim);
+    box-shadow: 0 0 0 0 rgba(94, 234, 212, 0);
+  }
+  30% {
+    background: var(--cyan);
+    box-shadow: 0 0 0 4px rgba(94, 234, 212, 0.18);
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .notfound-content { padding: 2.4rem 1.4rem 2rem; }
+  .notfound-actions { flex-direction: column; }
+  .notfound-btn { width: 100%; justify-content: center; }
+  .notfound-dig-sites { flex-direction: column; gap: 0.6rem; }
+}

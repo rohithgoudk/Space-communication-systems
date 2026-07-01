@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");
+
+:root {
+  --void: #04060b;
+  --panel: #0b1220;
+  --line: #1b2840;
+  --cyan: #5eead4;
+  --cyan-dim: #2d6e64;
+  --amber: #ffb454;
+  --text: #e7ecf3;
+  --muted: #8190ab;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+.nw-page { background: var(--void); color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
+.nw-eyebrow { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); margin: 0 0 0.75rem; }
+
+.nw-reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
+.nw-reveal.is-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) { .nw-reveal { transition: opacity 0.3s linear; transform: none; } .nw-orbit-sat { animation: none !important; } }
+
+.nw-hero { padding: 8.5rem 5vw 4rem; max-width: 1100px; }
+.nw-hero__headline { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.4rem, 5.5vw, 4.4rem); line-height: 1.04; margin: 0 0 1.2rem; }
+.nw-hero__sub { max-width: 56ch; color: var(--muted); font-size: 1.05rem; margin: 0 0 2.4rem; }
+.nw-hero__stats { display: flex; gap: 2.5rem; flex-wrap: wrap; }
+.nw-hero__stats strong { display: block; font-family: var(--font-display); font-size: 1.8rem; color: var(--cyan); }
+.nw-hero__stats span { font-size: 0.8rem; color: var(--muted); }
+
+.nw-section { padding: 4rem 5vw; max-width: 1180px; margin: 0 auto; }
+.nw-section__head { max-width: 48ch; margin-bottom: 2.6rem; }
+.nw-section__head h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3vw, 2.3rem); margin: 0; }
+
+/* orbit */
+.nw-orbit-wrap { display: flex; justify-content: center; }
+.nw-orbit-svg { width: 100%; max-width: 620px; height: auto; transition: transform 0.6s ease; }
+.nw-orbit-path { fill: none; stroke: var(--line); stroke-width: 1; }
+.nw-orbit-path--inner { stroke: var(--cyan-dim); stroke-dasharray: 3 5; }
+.nw-orbit-earth { fill: #16233d; stroke: var(--cyan-dim); stroke-width: 1; }
+.nw-orbit-sat { fill: var(--cyan); }
+.nw-orbit-sat--a { offset-path: path("M 560 210 A 260 120 0 1 1 40 210 A 260 120 0 1 1 560 210"); animation: nw-orbit-a 9s linear infinite; }
+.nw-orbit-sat--b { offset-path: path("M 470 132 A 170 78 0 1 1 130 132 A 170 78 0 1 1 470 132"); animation: nw-orbit-b 6s linear infinite reverse; }
+.nw-orbit-sat--c { offset-path: path("M 560 210 A 260 120 0 1 1 40 210 A 260 120 0 1 1 560 210"); animation: nw-orbit-a 9s linear infinite; animation-delay: -4.5s; }
+@keyframes nw-orbit-a { to { offset-distance: 100%; } }
+@keyframes nw-orbit-b { to { offset-distance: 100%; } }
+.nw-orbit-beam { stroke: var(--cyan); stroke-width: 1.4; opacity: 0; animation: nw-beam 3s ease-in-out infinite; }
+.nw-orbit-beam--b { animation-delay: 1.5s; }
+@keyframes nw-beam { 0%, 100% { opacity: 0; } 50% { opacity: 0.7; } }
+
+/* zones */
+.nw-zones-section { background: linear-gradient(180deg, var(--void), #060912 50%, var(--void)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.nw-zones { display: flex; flex-direction: column; gap: 1.3rem; max-width: 760px; }
+.nw-zone-row__head { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; font-size: 0.88rem; }
+.nw-zone-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.nw-zone-label { flex: 1; }
+.nw-zone-value { font-family: var(--font-mono); font-size: 0.76rem; color: var(--muted); }
+.nw-zone-bar { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.nw-zone-bar__fill { height: 100%; border-radius: 999px; transition: width 1.2s cubic-bezier(0.22,1,0.36,1); }
+
+/* station table */
+.nw-station-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.nw-station-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+.nw-station-table th, .nw-station-table td { padding: 0.95rem 1.2rem; text-align: left; font-size: 0.86rem; border-bottom: 1px solid var(--line); }
+.nw-station-table thead th { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cyan); }
+.nw-station-table tbody tr:hover { background: rgba(94,234,212,0.04); }
+.nw-station-table tbody tr:last-child td { border-bottom: none; }
+.nw-station-code { font-family: var(--font-mono); color: var(--text); }
+.nw-station-band { color: var(--muted); }
+
+.nw-load-wrap { display: flex; align-items: center; gap: 0.6rem; min-width: 120px; }
+.nw-load-bar { flex: 1; height: 5px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.nw-load-fill { height: 100%; background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)); border-radius: 999px; transition: width 1s ease; }
+
+.nw-status-badge { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--font-mono); font-size: 0.72rem; padding: 0.25rem 0.6rem; border-radius: 999px; }
+.is-locked { background: rgba(94,234,212,0.14); color: var(--cyan); }
+.is-acquiring { background: rgba(255,180,84,0.14); color: var(--amber); }
+.nw-status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 5px currentColor; }
+.is-acquiring .nw-status-dot { animation: nw-blink 1.2s steps(2) infinite; }
+@keyframes nw-blink { 50% { opacity: 0.2; } }
+
+/* CTA */
+.nw-cta { text-align: center; padding: 7rem 5vw; max-width: 720px; margin: 0 auto; }
+.nw-cta h2 { font-family: var(--font-display); font-size: clamp(1.7rem, 3.6vw, 2.4rem); margin: 0 0 1rem; }
+.nw-cta p { color: var(--muted); margin: 0 0 2rem; }
+.nw-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.6rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; text-decoration: none; background: var(--cyan); color: var(--void) !important; font-weight: 600; transition: transform 0.25s ease, background 0.25s ease; }
+.nw-btn:hover { background: #79f0db; transform: translateY(-2px); }
