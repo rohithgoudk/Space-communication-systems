@@ -609,7 +609,7 @@ function SettingsPage({ navigate }) {
 }
 
 const pageMap = {
-  dashboard: { title: "Dashboard", sub: "", component: DashboardPage },
+  dashboard: { title: "Dashboard", sub: "All insights of mission,teams.", component: DashboardPage },
   excavations: { title: "Missions", sub: "All active and completed communication missions.", component: ExcavationsPage },
   teams: { title: "Mission Control", sub: "Manage your engineers and network leads.", component: TeamsPage },
   artifacts: { title: "Transmissions", sub: "Registry of all logged signal transmissions.", component: ArtifactsPage },
@@ -624,6 +624,7 @@ export default function Dashboard() {
   const navigate=useNavigate()
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeNav, setActiveNav] = useState("dashboard");
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const mainRef = useRef(null);
 
   const currentPage = pageMap[activeNav];
@@ -678,12 +679,19 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="topbar-right">
-            <div className="search-box">
-              <span className="search-icon">🔍</span>
-              <input placeholder="Search missions, transmissions, engineers…" />
-            </div>
+            <button className="icon-btn search-toggle-btn" aria-label="Search" onClick={() => setMobileSearchOpen(true)}>
+              🔍
+            </button>
             <button className="icon-btn" aria-label="Notifications" onClick={()=>navigate("/404")}>🔔<span className="notif-dot" /></button>
           </div>
+
+          {mobileSearchOpen && (
+            <div className="mobile-search-overlay">
+              <span className="search-icon">🔍</span>
+              <input autoFocus placeholder="Search missions, transmissions, engineers…" />
+              <button className="mobile-search-close" onClick={() => setMobileSearchOpen(false)} aria-label="Close search">✕</button>
+            </div>
+          )}
         </header>
 
         <div className="content-area">

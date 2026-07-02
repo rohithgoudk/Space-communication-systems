@@ -361,6 +361,13 @@
   background: var(--line);
 }
 
+/* Hide Edge/IE's native password reveal + clear icons so they don't
+   double up with our custom eye toggle button */
+   .signup-input::-ms-reveal,
+   .signup-input::-ms-clear {
+     display: none;
+   }
+
 /* ---------- Social ---------- */
 .signup-social {
   display: grid;

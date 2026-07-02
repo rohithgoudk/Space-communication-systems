@@ -379,6 +379,12 @@
   transform: translateY(-2px);
   box-shadow: 0 10px 24px -10px rgba(94, 234, 212, 0.45);
 }
+/* Hide Edge/IE's native password reveal + clear icons so they don't
+   double up with our custom eye toggle button */
+   .login-input::-ms-reveal,
+   .login-input::-ms-clear {
+     display: none;
+   }
 
 .login-submit-btn:active { transform: translateY(0); }
 

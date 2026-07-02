@@ -53,8 +53,8 @@
 .hdr-logo-dot { display: none; }
 
 .hdr-logo-img {
-  height: 135px;
-  width: 135px;
+  height: 65px;
+  width: 75px;
   object-fit: contain;
   border-radius: 6px;
   filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.25));
@@ -72,7 +72,7 @@
 .hdr-logo-text-accent { color: var(--cyan); }
 
 @media (max-width: 420px) {
-  .hdr-logo-img { height: 26px; width: 26px; }
+  .hdr-logo-img { height: 46px; width: 66px; }
   .hdr-logo-text { font-size: 0.8rem; letter-spacing: 0.04em; }
 }
 
