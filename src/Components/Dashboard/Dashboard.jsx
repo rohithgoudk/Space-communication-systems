@@ -643,7 +643,6 @@ export default function Dashboard() {
           <div className="brand">
             <img src={logo} alt="Orbitalink" className="brand-logo-img" />
           </div>
-          <button className="close-btn" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">✕</button>
         </div>
         <div className="sidebar-section-label">MAIN MENU</div>
         <nav className="sidebar-nav">
